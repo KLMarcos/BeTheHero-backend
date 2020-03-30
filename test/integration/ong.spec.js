@@ -4,8 +4,11 @@ const connection = require('../../src/database/connection')
 
 describe('ONG', () => {
   beforeEach(async () => {
-    await connection.migrate.rollback()
-    await connection.migrate.latest()
+    try {
+      await connection.migrate.latest()
+    } catch (error) {
+      throw new Error('connection failed')
+    }
   })
 
   afterAll(async () => {

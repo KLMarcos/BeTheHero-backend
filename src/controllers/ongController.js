@@ -28,7 +28,13 @@ module.exports = {
   },
 
   async index(req, res) {
-    const ongs = await connectiom('ongs').select('*')
+    const ongs = await connectiom('ongs').select(
+      'name',
+      'email',
+      'whatsapp',
+      'city',
+      'uf',
+    )
 
     return res.json(ongs)
   },
