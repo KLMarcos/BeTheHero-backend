@@ -2,10 +2,10 @@ const express = require('express')
 const { celebrate, Segments, Joi } = require('celebrate')
 const routes = express.Router()
 
-const OngController = require('./controllers/ongController')
-const IncidentController = require('./controllers/incidentController')
-const ProfileController = require('./controllers/profileController')
-const SessionController = require('./controllers/sessionController')
+const OngController = require('../controllers/ongController')
+const IncidentController = require('../controllers/incidentController')
+const ProfileController = require('../controllers/profileController')
+const SessionController = require('../controllers/sessionController')
 
 routes.post(
   '/ongs',

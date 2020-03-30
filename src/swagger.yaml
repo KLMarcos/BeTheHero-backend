@@ -1,0 +1,171 @@
+swagger: '2.0'
+info:
+  description: 'Be The Hero APi'
+  version: '1.0.0'
+  title: 'Be The Hero'
+  license:
+    name: 'Apache 2.0'
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+schemes:
+  - 'http'
+  - 'https'
+tags:
+  - name: 'Ong'
+  - name: 'Incidents'
+securityDefinitions:
+  APIKey:
+    type: 'apiKey'
+    in: 'header'
+    name: 'Authorization'
+    description: 'Ong Log In Id'
+paths:
+  /ongs:
+    post:
+      tags:
+        - 'Ong'
+      summary: 'Registra um nova ong'
+      parameters:
+        - in: 'body'
+          name: 'body'
+          description: 'Objeto ong'
+          required: true
+          schema:
+            $ref: '#/definitions/Ong'
+      responses:
+        201:
+          description: 'Created'
+        500:
+          description: 'Erro interno no servidor'
+    get:
+      tags:
+        - 'Ong'
+      summary: 'Retorna a lista de ongs cadastradas'
+      responses:
+        200:
+          description: 'Ok'
+        500:
+          description: 'Erro interno no servidor'
+  /profile:
+    get:
+      tags:
+        - 'Ong'
+      summary: 'Retorna os casos da ong'
+      security:
+        - APIKey: []
+      responses:
+        200:
+          description: 'Ok'
+        401:
+          description: 'Não autorizado'
+        400:
+          description: 'Bad Request'
+        500:
+          description: 'Erro interno no servidor'
+  /incidents:
+    post:
+      tags:
+        - 'Incidents'
+      summary: 'Cria um novo caso para a Ong'
+      security:
+        - APIKey: []
+      parameters:
+        - in: 'body'
+          name: 'body'
+          description: 'Novo caso'
+          required: true
+          schema:
+            properties:
+              title:
+                type: 'string'
+                required: true
+              description:
+                type: 'string'
+                required: true
+              value:
+                type: 'number'
+                required: true
+      responses:
+        200:
+          description: 'Ok'
+        401:
+          description: 'Não autorizado'
+        400:
+          description: 'Bad Request'
+        500:
+          description: 'Erro interno no servidor'
+    get:
+      tags:
+        - 'Incidents'
+      summary: 'retorna todos os incidents cadastrados'
+      responses:
+        201:
+          description: 'Created'
+        500:
+          description: 'Erro interno no servidor'
+  /incidents/{id}:
+    delete:
+      tags:
+        - 'Incidents'
+      summary: 'Atualizar uma conta pelo id'
+      security:
+        - APIKey: []
+      parameters:
+        - name: 'id'
+          in: 'path'
+          description: 'Incident ID to be deleted'
+          required: true
+          type: 'number'
+      responses:
+        204:
+          description: 'Ok'
+        401:
+          description: 'Não autorizado'
+        400:
+          description: 'Bad Request'
+        500:
+          description: 'Erro interno no servidor'
+definitions:
+  Ong:
+    Ong: 'object'
+    properties:
+      name:
+        type: 'string'
+        required: true
+      email:
+        type: 'string'
+        required: true
+      whatsapp:
+        type: 'string'
+        required: true
+      city:
+        type: 'string'
+        required: true
+      uf:
+        type: 'string'
+        required: true
+    example:
+      name: 'ONG Example'
+      email: 'example@ong.com'
+      whatsapp: '11912345678'
+      city: 'Santos'
+      uf: 'SP'
+  Incident:
+    Incident: 'Object'
+    properties:
+      title:
+        type: 'string'
+        required: true
+      description:
+        type: 'string'
+        required: true
+      value:
+        type: 'number'
+        required: true
+      ong_id:
+        type: 'string'
+        required: true
+    example:
+      title: 'Caso Aberto'
+      description: 'Caso aberto por ong'
+      value: 250
+      ong_id: 'af25ad'
